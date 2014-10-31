@@ -1,0 +1,92 @@
+/* 
+    Created on : 2014-okt-30, 21:33:56
+    Author     : Christoffer
+*/
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+    background: white;
+    font-size: 18px;
+    font-family: "Open Sans", Arial;
+    background: #f2f2f2;
+    overflow-y: hidden;
+}
+
+#container {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 480px;
+    height: 600px;
+}
+#header {
+    font-size: 2em;
+    color: #666;
+    font-weight: bold;
+    float: left;
+}
+
+#head-container {
+    width: 400px;
+}
+
+.scoreboard {
+    float: right;
+    height: 32px;
+    line-height:32px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width: 140px;
+    padding: 0.2em;
+    background: #ccc;
+    color: #fff;
+    border-radius: 4px;
+}
+
+label.score-text {
+    font-size: 0.875em;
+    font-weight: normal;
+    
+}
+
+#score {
+    font-size: 1.2em;
+    font-weight: bold;
+    float: right;
+    margin-right: 1em;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+}
+
+#topscore {
+    font-size: 1.2em;
+    font-weight: bold;
+    float: right;
+     margin-right: 1em;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+}
+
+canvas {
+    background: white;
+    border: 4px solid #ccc;
+    margin: auto;
+    
+}
+
+
+label#pause {
+    
+}
