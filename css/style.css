@@ -95,11 +95,5 @@ label.score-text {
 canvas {
     background: white;
     border: 4px solid #ccc;
-    margin: auto;
-    
-}
-
-
-label#pause {
-    
+    margin: auto;   
 }
