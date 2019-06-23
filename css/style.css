@@ -1,8 +1,4 @@
-/* 
-    Created on : 2014-okt-30, 21:33:56
-    Author     : Christoffer
-*/
-@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
 * {
 	padding: 0;
@@ -17,83 +13,46 @@ body {
     overflow-y: hidden;
 }
 
-#container {
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-right: auto;
-    margin-left: auto;
-    width: 480px;
-    height: 600px;
+.container {
+    margin: 10px auto;
+    width: 808px;
 }
-#header {
-    
+
+header {
     color: #666;
-    float: left;
+    display: flex;
+    justify-content: space-between;  
 }
 
-#header label {
-    font-size: 2em;
-    font-weight: bold;
-}
-
-#header a {
+a {
     text-decoration: none;
     color: #7f8c8d;
 }
 
-#header a:hover {
+a:hover {
   color: #95a5a6;  
 }
 
-#head-container {
-    width: 400px;
+.scoreboard {
+    align-self: flex-end;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
-.scoreboard {
-    float: right;
-    height: 32px;
-    line-height:32px;
-    margin-top: 2px;
-    margin-bottom: 2px;
+.scoreboard div {
+    display: inline-block;
+    height: 2rem;
+    line-height: 2rem;
+    margin: 2px 0 2px 4px;
     width: 140px;
-    padding: 0.2em;
+    padding: 1rem;
     background: #ccc;
     color: #fff;
     border-radius: 4px;
 }
 
-label.score-text {
-    font-size: 0.875em;
-    font-weight: normal;
-    
-}
-
-#score {
-    font-size: 1.2em;
-    font-weight: bold;
-    float: right;
-    margin-right: 1em;
-    transition: all 0.3s ease;
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-}
-
-#topscore {
-    font-size: 1.2em;
-    font-weight: bold;
-    float: right;
-     margin-right: 1em;
-    transition: all 0.3s ease;
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-}
-
 canvas {
     background: white;
     border: 4px solid #ccc;
-    margin: auto;   
+    margin: 1rem auto;
 }

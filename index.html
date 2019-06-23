@@ -2,29 +2,40 @@
 <html>
 
 <head>
-    <title>Snake</title>
+    <title>Snake Clone</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
-    <script src="js/snake.js"></script>
+
     <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
-    <div id="container">
-        <div id="head-container">
-            <div id="header"><label>Snake clone</label><br />
-                <a href="https://github.com/Boogeey/MySnakeClone">see source code >></a></div>
-            <div class="scoreboard">
-                <label class="score-text">Score: </label><label id="score">0</label>
+    <div class="container">
+        <header>
+            <div>
+                <h1>Snake Clone</h1>
+                <a href="https://github.com/Boogeey/MySnakeClone">see source code >></a>
             </div>
+
             <div class="scoreboard">
-                <label class="score-text">Highest:</label><label id="topscore">0</label>
+                <div>
+                    <label>Score: </label>
+                    <label id="score">0</label>
+                </div>
+                <div>
+                    <label>Highest: </label>
+                    <label id="topscore">0</label>
+                </div>
             </div>
-        </div>
-        <script src="js/main.js">
-        </script>
+        </header>
+        <canvas id="canvas" width="800" height="800"></canvas>
     </div>
+
+    <script src="js/snake.js"></script>
+    <script src="js/fruit.js"></script>
+    <script src="js/input.js"></script>
+    <script src="js/main.js"></script>
+
 </body>
 
 </html>

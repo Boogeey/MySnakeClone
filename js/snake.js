@@ -1,102 +1,66 @@
-function Snake(x, y, worldW, worldH) {
+const Snake = function (x, y, width, height) {
+    const snake = {};
 
-    var speed = boxSize;
-    var worldWidth = worldW;
-    var worldHeight = worldH;
-    var headOfSnake = {x: x, y: y};
-    var body = new Array();
-    body.push(headOfSnake);
+    snake.speed = 5;
+    snake.width = width;
+    snake.height = height;
+    snake.headOfSnake = { x: x, y: y };
+    snake.body = new Array();
+    snake.body.push(snake.headOfSnake);
+    snake.isAlive = true;
 
-    var isAlive = true;
-    var dir = {38: false, 40: false, 37: false, 39: false};
-    var keys = {UP: 38, DOWN: 40, LEFT: 37, RIGHT: 39};
-    
-    this.move = function () {
-        if (dir[keys.UP]) {
-            body.unshift({x: headOfSnake.x, y: headOfSnake.y - speed});
-            headOfSnake = body[0];
+    snake.move = function (direction) {
 
-        } else if (dir[keys.DOWN]) {
-            body.unshift({x: headOfSnake.x, y: headOfSnake.y + speed});
-            headOfSnake = body[0];
-
-        } else if (dir[keys.LEFT]) {
-            body.unshift({x: headOfSnake.x - speed, y: headOfSnake.y});
-            headOfSnake = body[0];
-
-        } else if (dir[keys.RIGHT]) {
-            body.unshift({x: headOfSnake.x + speed, y: headOfSnake.y});
-            headOfSnake = body[0];
+        if (direction.UP) {
+            snake.moveVertical(-snake.speed);
+        } else if (direction.DOWN) {
+            snake.moveVertical(snake.speed);
+        } else if (direction.LEFT) {
+            snake.moveHorizontal(-snake.speed);
+        } else if (direction.RIGHT) {
+            snake.moveHorizontal(snake.speed);
         }
         // Removes tail.
-        if (body.length > 1) {
-            body.pop();
+        if (snake.body.length > 1) {
+            snake.body.pop();
         }
 
-        // If snake is out of bounds. kill it.
-        if (headOfSnake.x < 0 || (headOfSnake.x + boxSize) > worldWidth || headOfSnake.y < 0 || 
-                (headOfSnake.y + boxSize) > worldHeight) {
-            isAlive = false;
-        // If snake collided with body... kill it.    
-        } else if (this.ranIntoItself()) {
-            isAlive = false;
+        if (snake.ranIntoItself()) {
+            snake.isAlive = false;
         }
     };
-    
-    this.doOnKeyDown = function (e) {
-        var key = e.keyCode;
-        
-        // If P - then pause or unpause depending on state.
-        if(key === 80 && !pause) {
-            pause = true;
-        } else if(key === 80 && pause) pause = false;
-        
-        // Do nothing if key is already down
-        if (dir[key] || pause)
-            return;
 
-        // check what key is pressed and that the 
-        // former key is not opposite direction
-        if (key === keys.UP && !dir[keys.DOWN]) {
-            dir[keys.DOWN] = false;
-            dir[keys.LEFT] = false;
-            dir[keys.RIGHT] = false;
-            return dir[keys.UP] = true;
-        } else if (key === keys.DOWN && !dir[keys.UP]) {
-            dir[keys.UP] = false;
-            dir[keys.LEFT] = false;
-            dir[keys.RIGHT] = false;
-            return dir[keys.DOWN] = true;
-        } else if (key === keys.RIGHT && !dir[keys.LEFT]) {
-            dir[keys.DOWN] = false;
-            dir[keys.LEFT] = false;
-            dir[keys.UP] = false;
-            return dir[keys.RIGHT] = true;
-        } else if (key === keys.LEFT && !dir[keys.RIGHT]) {
-            dir[keys.DOWN] = false;
-            dir[keys.RIGHT] = false;
-            dir[keys.UP] = false;
-            return dir[keys.LEFT] = true;
-        }
+    snake.moveVertical = function (speed) {
+        snake.body.unshift({ x: snake.headOfSnake.x, y: snake.headOfSnake.y + speed });
+        snake.headOfSnake = snake.body[0];
+    }
+
+    snake.moveHorizontal = function (speed) {
+        snake.body.unshift({ x: snake.headOfSnake.x + speed, y: snake.headOfSnake.y });
+        snake.headOfSnake = snake.body[0];
+    }
+
+    snake.outOfBounds = function (worldWidth, worldHeight) {
+        return (snake.headOfSnake.x < 0 ||
+            snake.headOfSnake.x + snake.width > worldWidth ||
+            snake.headOfSnake.y < 0 ||
+            snake.headOfSnake.y + snake.height > worldHeight);
+    }
+
+    snake.grow = function (value) {
+        for (let i = 0; i < value; i++)
+            snake.body.push(snake.body[snake.body.length - 1]);
     };
-    
-    this.grow = function (value) {
-        for(var i = 0; i < value; i++)
-            body.push(body[body.length - 1]);
+
+    snake.head = function () {
+        return snake.headOfSnake;
     };
-    
-    this.isAlive = function () {
-        return isAlive;
-    };
-    
-    this.head = function () {
-        return headOfSnake;
-    };
-    
-    this.ranIntoItself = function () {
-        if (body.length > 2) {
-            for (var i = 2; i < body.length; i++) {
-                if (headOfSnake.x === body[i].x && headOfSnake.y === body[i].y) {
+
+    snake.ranIntoItself = function () {
+        if (snake.body.length > 2) {
+            for (let i = 2; i < snake.body.length; i++) {
+                if (snake.headOfSnake.x === snake.body[i].x
+                    && snake.headOfSnake.y === snake.body[i].y) {
                     return true;
                 }
             }
@@ -104,22 +68,23 @@ function Snake(x, y, worldW, worldH) {
         return false;
     };
 
-    this.draw = function (ctx) {
+    snake.draw = function (ctx) {
         ctx.save();
         ctx.fillStyle = '#3998db';
-        for (var i = 0, size = body.length; i < size; i++) {
-                ctx.fillRect(body[i].x, body[i].y, boxSize, boxSize);         
+        for (let i = 0, size = snake.body.length; i < size; i++) {
+            ctx.fillRect(snake.body[i].x, snake.body[i].y, snake.width, snake.height);
         }
         ctx.restore();
     };
-    
-    this.isAt = function (otherX, otherY) {
-        size = body.length;
-        for (var i = 0; i < size; i++) {
-            if (otherX === body[i].x && otherY === body[i].y) {
+
+    snake.isAt = function (otherX, otherY) {
+        for (let i = 0, size = snake.body.length; i < size; i++) {
+            if (otherX === snake.body[i].x && otherY === snake.body[i].y) {
                 return true;
             }
         }
         return false;
     };
+
+    return snake;
 }
