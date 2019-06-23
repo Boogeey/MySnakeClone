@@ -57,16 +57,12 @@ function run() {
 }
 
 function update() {
-    if (!snake.isAlive) {
+    if (!snake.isAlive || snake.outOfBounds(canvas.width, canvas.height)) {
         gameOver();
         return;
     }
 
     snake.move(input.getDirection());
-    if (snake.outOfBounds(canvas.width, canvas.height)) {
-        gameOver();
-        return;
-    }
 
     if (fruit.isEaten(snake.head())) {
         score += appleType;
