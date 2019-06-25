@@ -1,23 +1,39 @@
 const Snake = function (x, y, width, height) {
     const snake = {};
 
-    snake.speed = 5;
+    snake.speed = 20;
     snake.width = width;
     snake.height = height;
     snake.headOfSnake = { x: x, y: y };
     snake.body = new Array();
     snake.body.push(snake.headOfSnake);
     snake.isAlive = true;
+    snake.lastDirection = null;
 
     snake.move = function (direction) {
+        if (snake.lastDirection === null) {
+            snake.lastDirection = Object.assign({}, direction);
+        }
 
-        if (direction.UP) {
+        if (direction.UP && !snake.lastDirection.DOWN) {
             snake.moveVertical(-snake.speed);
-        } else if (direction.DOWN) {
+            snake.lastDirection = Object.assign({}, direction);
+        } else if (direction.DOWN && !snake.lastDirection.UP) {
             snake.moveVertical(snake.speed);
-        } else if (direction.LEFT) {
+            snake.lastDirection = Object.assign({}, direction);
+        } else if (direction.LEFT && !snake.lastDirection.RIGHT) {
             snake.moveHorizontal(-snake.speed);
-        } else if (direction.RIGHT) {
+            snake.lastDirection = Object.assign({}, direction);
+        } else if (direction.RIGHT && !snake.lastDirection.LEFT) {
+            snake.moveHorizontal(snake.speed);
+            snake.lastDirection = Object.assign({}, direction);
+        } else if (snake.lastDirection.UP) {
+            snake.moveVertical(-snake.speed);
+        } else if (snake.lastDirection.DOWN) {
+            snake.moveVertical(snake.speed);
+        } else if (snake.lastDirection.LEFT) {
+            snake.moveHorizontal(-snake.speed);
+        } else if (snake.lastDirection.RIGHT) {
             snake.moveHorizontal(snake.speed);
         }
         // Removes tail.
@@ -48,8 +64,9 @@ const Snake = function (x, y, width, height) {
     }
 
     snake.grow = function (value) {
-        for (let i = 0; i < value; i++)
+        for (let i = 0; i < value; i++) {
             snake.body.push(snake.body[snake.body.length - 1]);
+        }
     };
 
     snake.head = function () {
@@ -68,15 +85,6 @@ const Snake = function (x, y, width, height) {
         return false;
     };
 
-    snake.draw = function (ctx) {
-        ctx.save();
-        ctx.fillStyle = '#3998db';
-        for (let i = 0, size = snake.body.length; i < size; i++) {
-            ctx.fillRect(snake.body[i].x, snake.body[i].y, snake.width, snake.height);
-        }
-        ctx.restore();
-    };
-
     snake.isAt = function (otherX, otherY) {
         for (let i = 0, size = snake.body.length; i < size; i++) {
             if (otherX === snake.body[i].x && otherY === snake.body[i].y) {
@@ -87,4 +95,4 @@ const Snake = function (x, y, width, height) {
     };
 
     return snake;
-}
+};

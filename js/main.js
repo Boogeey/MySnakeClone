@@ -1,5 +1,5 @@
 let canvas = null;
-let ctx = null;
+let context = null;
 let snake = null;
 let fruit = null;
 let input = null;
@@ -7,8 +7,6 @@ let animationFrameRequest = null;
 let frame = 0;
 let score = null;
 let lastscore = null;
-let refreshIntervalId = null;
-let pause = false;
 let topscore = 0;
 const boxSize = 20;
 const scoreLabel = document.getElementById('score');
@@ -16,7 +14,7 @@ const topScoreLabel = document.getElementById('topscore');
 
 function main() {
     canvas = document.getElementById('canvas');
-    ctx = canvas.getContext("2d");
+    context = canvas.getContext("2d");
 
     initialize();
 }
@@ -34,14 +32,12 @@ function initialize() {
 }
 
 function createFruit() {
-    appleType = (Math.floor(Math.random() * 10) < 7) ? GREENAPPLE : REDAPPLE;
-
     let x = Math.floor(Math.random() * canvas.width / boxSize) * boxSize;
     let y = Math.floor(Math.random() * canvas.height / boxSize) * boxSize;
     if (snake.isAt(x, y)) {
         return createFruit();
     }
-    return Fruit(appleType, boxSize, x, y);
+    return Fruit(boxSize, x, y);
 }
 
 function reset() {
@@ -49,9 +45,14 @@ function reset() {
 }
 
 function run() {
-    update();
-    render();
-
+    if (frame % 3 === 0) {
+        update();
+        render();
+    }
+    frame++;
+    if (frame > 10000) {
+        frame = 0;
+    }
     cancelAnimationFrame(animationFrameRequest);
     animationFrameRequest = requestAnimationFrame(run);
 }
@@ -65,8 +66,8 @@ function update() {
     snake.move(input.getDirection());
 
     if (fruit.isEaten(snake.head())) {
-        score += appleType;
-        snake.grow(appleType);
+        score += fruit.type;
+        snake.grow(fruit.type);
         fruit = createFruit();
     }
 }
@@ -81,9 +82,10 @@ function gameOver() {
 }
 
 function render() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    fruit.draw(ctx);
-    snake.draw(ctx);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawRect(fruit.x, fruit.y, fruit.width, fruit.height, fruit.color);
+    drawSnake();
 
     // if score has changed.
     if (lastscore !== score) {
@@ -93,10 +95,19 @@ function render() {
 }
 
 function drawRect(x, y, w, h, color) {
-    ctx.save();
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, w, h);
-    ctx.restore();
+    context.save();
+    context.fillStyle = color;
+    context.fillRect(x, y, w, h);
+    context.restore();
+}
+
+function drawSnake() {
+    context.save();
+    context.fillStyle = '#3998db';
+    for (let i = 0, size = snake.body.length; i < size; i++) {
+        context.fillRect(snake.body[i].x, snake.body[i].y, snake.width, snake.height);
+    }
+    context.restore();
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {

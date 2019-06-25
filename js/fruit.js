@@ -1,13 +1,13 @@
-const GREENAPPLE = 3;
-const REDAPPLE = 10;
+const GREENAPPLE = 1;
+const REDAPPLE = 5;
 const COLOR = {
     GREEN: '#2ecc71',
     RED: '#e74c3c'
 }
 
-const Fruit = function (type, size, x, y) {
+const Fruit = function (size, x, y) {
     const fruit = {};
-    fruit.type = type;
+    fruit.type = (Math.floor(Math.random() * 10) < 7) ? GREENAPPLE : REDAPPLE;
     fruit.x = x;
     fruit.y = y;
     fruit.width = size;
@@ -24,9 +24,6 @@ const Fruit = function (type, size, x, y) {
         return false;
     }
 
-    fruit.draw = function (ctx) {
-        drawRect(fruit.x, fruit.y, fruit.width, fruit.height, fruit.color);
-    }
 
     fruit.isAt = () => { return { x: fruit.x, y: fruit.y } };
 
